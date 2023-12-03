@@ -63,6 +63,7 @@ function Auth({ register }) {
            email:"",password:""
           })
           navigate('/')
+          window.location.reload();
         }else{
           toast.warning(result.response.data)
         }
