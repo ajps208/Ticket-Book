@@ -51,8 +51,8 @@ function Auth({ register }) {
       const {email, password } = userData;
 
       if (!email || !password) {
-        toast.info("Please fill the form completely !!!");
-      } else{
+        toast.info("Please fill the form")
+       } else{
         const result=await loginrAPI(userData)
         if(result.status===200){
           // toast.success(`${result.data.username} has registered successfully!!!`)
@@ -72,61 +72,78 @@ function Auth({ register }) {
 
   
   return (
-    <div style={{ width: "100%", height: "100vh" }} className='d-flex align-items-center justify-content-center'>
-      <div className='w-75 container'>
-        <Link to={'/'} style={{ textDecoration: "none" }}>
-          <i className="fa-solid fa-arrow-left me-1"></i> Back to Home
-        </Link>
-        <div className="card shadow p-5 bg-info">
-          <div className="row align-items-center">
-            <div className="col lg-6">
-              <img src={logimg} alt="" className='rounded-start w-100' />
-            </div>
-            <div className="col lg-6">
-              <div className='d-flex align-items-center flex-column'>
-                <h1 className='fw-bolder text-light mt-2 text-center'>
-                 <img className='img-fluid w-50' src={logo} alt="" />
-                </h1>
-                <h5 className="fw-bolder mt-4 pb-3 text-light">
-                  {isRegisterForm ? 'Sign up to your Account' : 'Sign in to your Account'}
-                </h5>
-                <Form className='text-light w-100'>
-                  {isRegisterForm && (
-                    <>
-                      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                     
-                        <Form.Control type="text" placeholder="UserName" value={userData.username} onChange={e=>setUserData({...userData,username:e.target.value})} />
-                      </Form.Group>
-                    
-                    </>
-                  )}
-                       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                     
-                     <Form.Control type="email" placeholder="Enter Email Id" value={userData.email} onChange={e=>setUserData({...userData,email:e.target.value})}/>
-                   </Form.Group>
-                   <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                     
-                     <Form.Control type="password" placeholder="Enter Password" vvalue={userData.password} onChange={e=>setUserData({...userData,password:e.target.value})} />
-                   </Form.Group>
-                   {
-                    isRegisterForm?
-                    <div>
-                        <button onClick={handleRegister}  className='btn btn-light mb-2'>Register</button>
-                        <p>Already have account?clicked here to <Link to={'/login'}>Login</Link></p>
-                    </div>:
-                     <div>
-                     <button onClick={handleLogin} className='btn btn-light mb-2'>Login</button>
-                     <p>New User? Click here to <Link to={'/register'}>Register</Link></p>
-                 </div>
-                   }
-                </Form>
+   
+    <section className="vh-100  " style={{backgroundColor:" #130f40",backgroundImage: "linear-gradient(315deg, #130f40 0%, #000000 74%)",color:"white"}}>
+  <div className="container h-100">
+    
+    <div  className="row d-flex justify-content-center align-items-center h-100">
+      
+      <div className="col-lg-12 col-xl-11" >
+      <Link to={'/'} style={{ textDecoration: "none" ,color:"red"}}><i classNameName="fa-solid fa-arrow-left me-1"></i> Back to Home    </Link>
+
+        <div className="card text-black" style={{borderRadius:" 25px;"}}>
+          <div className="card-body p-md-5">
+            <div className="row justify-content-center">
+              <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1" >
+
+                <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">{isRegisterForm ? `Sign up`:`Login`}</p>
+
+                <form className="mx-1 mx-md-4">
+
+                 { isRegisterForm && (<div className="d-flex flex-row align-items-center mb-4">
+                    <i className="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div className="form-outline flex-fill mb-0">
+                      <input type="text" id="form3Example1c" className="form-control" value={userData.username} onChange={e=>setUserData({...userData,username:e.target.value})} />
+                      <label className="form-label" for="form3Example1c">Your UserName</label>
+                    </div>
+                  </div>)}
+
+                  <div className="d-flex flex-row align-items-center mb-4">
+                    <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                    <div className="form-outline flex-fill mb-0">
+                      <input type="email" id="form3Example3c" className="form-control" value={userData.email} onChange={e=>setUserData({...userData,email:e.target.value})} />
+                      <label className="form-label" for="form3Example3c">Your Email</label>
+                    </div>
+                  </div>
+
+                  <div className="d-flex flex-row align-items-center mb-4 ">
+                    <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div className="form-outline flex-fill mb-0">
+                      <input type="password" id="form3Example4c" className="form-control" value={userData.password} onChange={e=>setUserData({...userData,password:e.target.value})} />
+                     <div className='d-flex justify-content-between'>
+                        <label className="form-label" for="form3Example4c">Password</label>
+                       {!isRegisterForm && <label className="form-label" for="form3Example4c"><Link to={'/forgotpassword'} style={{textDecoration:"none"}}>Forgot Password?</Link></label>}
+                     </div>
+                    </div>
+                  </div>
+
+                  {isRegisterForm?<div className="d-flex flex-column justify-content-center mx-4 mb-3 mb-lg-4">
+                    <button type="button" onClick={handleRegister}  className="btn mx-4 btn-primary btn-lg">Register</button>
+                    <p className='mt-3 mx-3'>Already have account?clicked here to <Link to={'/login'} style={{textDecoration:"none"}}>Login</Link></p>
+                  </div>:
+                  <div className="d-flex  flex-column justify-content-center mx-4 mb-3 mb-lg-4">
+                    <button type="button" onClick={handleLogin}  className="btn mx-4 btn-success btn-lg">Login</button>
+                    <p className='mt-3 mx-4'>New User? Click here to <Link to={'/register'} style={{textDecoration:"none"}}>Register</Link></p>
+                  </div>}
+
+                </form>
+
+              </div>
+              <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                  className="img-fluid" alt="Sample image"/>
+
               </div>
             </div>
           </div>
         </div>
       </div>
-      <ToastContainer position='top-right' autoClose={2000} theme='colored' />
     </div>
+  </div>
+  <ToastContainer position='top-right' autoClose={2000} theme='colored' />
+
+</section>
   )
 }
 

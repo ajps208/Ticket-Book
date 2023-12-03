@@ -8,6 +8,7 @@ import { BASE_URL } from "../Services/baseURL";
 import { loadStripe } from "@stripe/stripe-js";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import BasicExample from "../components/Header";
 
 function TicketView() {
   
@@ -98,7 +99,9 @@ function TicketView() {
   }, [seat, noOfTickets, ticket]);
 
   return (
-    <>
+    <div  style={{minHeight:"100vh",backgroundColor:" #130f40",backgroundImage: "linear-gradient(315deg, #130f40 0%, #000000 74%)",color:"white"}}>
+        <BasicExample/>
+
       <Container style={{ maxWidth: "80%" }} className="mt-5">
         <Row>
           <Col sm={12} md={7} lg={7}>
@@ -176,8 +179,8 @@ function TicketView() {
                 </div>
               </div>
             </div>
-            <h4 className="mt-3">About</h4>
-            <p>{ticket.description}</p>
+            <h4 className="mt-3" style={{color:"#8c8c8c"}}>About</h4>
+            <p style={{color:"#8c8c8c"}}>{ticket.description}</p>
           </Col>
           <Col
             sm={12}
@@ -208,24 +211,24 @@ function TicketView() {
               <div className="d-flex align-items-center justify-content-center  mt-3 ">
                 <div className="d-flex flex-column align-items-center justify-content-center mt-3">
                   <div
-                    style={{ backgroundColor: "#68d388" }}
+                    style={{ backgroundColor: "#000000",color:"wheat"}}
                     className="d-flex flex-column align-items-center justify-content-center border p-3 rounded "
                   >
                     <div className="d-flex  align-items-center justify-content-center">
-                      <span className="me-2 fs-5 text-muted">
+                      <span className="me-2 fs-5 ">
                         No of tickets:
                       </span>
                       <button
-                        className="btn btn-info"
+                        className="btn btn-info fs-4"
                         onClick={() =>
                           setNoOfTickets(Math.max(1, noOfTickets - 1))
                         }
                       >
                         -
                       </button>
-                      <p className="fs-5 m-2 text-muted">{noOfTickets}</p>
+                      <p style={{color:"wheat"}} className="fs-5 m-2">{noOfTickets}</p>
                       <button
-                        className="btn btn-info"
+                        className="btn btn-info fs-4"
                         onClick={() => setNoOfTickets(noOfTickets + 1)}
                       >
                         +
@@ -234,11 +237,12 @@ function TicketView() {
                     <input
                      
                       style={{
-                        backgroundColor: "#68d388",
+                        backgroundColor: "#000000",
                         textAlign: "center", // Center text
                         border: "none", // Remove border
                         outline: "none", // Remove outline on focus
                         cursor: "default", // Disable hover effect
+                        color:"white"
                       }}
                       type="text"
                       className="form-control w-100 m-2 fs-4"
@@ -249,6 +253,8 @@ function TicketView() {
                 </div>
               </div>
               <button
+              disabled={ticket.qty && seat !== undefined
+                &&ticket.qty[seat] === 0}
                 onClick={makePayment}
                 className="w-100 mt-4 btn btn-primary"
               >
@@ -298,7 +304,7 @@ function TicketView() {
       </Container>
       <ToastContainer position='top-right' autoClose={2000} theme='colored' />
 
-    </>
+    </div>
   );
 }
 

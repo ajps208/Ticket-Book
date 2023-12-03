@@ -69,4 +69,13 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
+    <>
+    <Row className=' w-100'>
+    <Col  xs={12} md={2} lg={2} ><Sidebar/></Col>
+     <Col  xs={12} md={10} lg={10}><Container className=' d-flex flex-column align-items-center justify-content-center' >
+          <h1 className='mt-5'>ALL EVENTS</h1>
+          <DashPost/>
+        </Container></Col>
+      </Row>
     
+    </>

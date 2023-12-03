@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useContext } from 'react'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -7,12 +7,17 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Badge from 'react-bootstrap/Badge';
 import { Link, useNavigate } from 'react-router-dom';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { BASE_URL } from '../Services/baseURL';
-import nodata from '../../Assets/nodata.png'
+// import { SERVER_URL } from '../Services/baseURL';
 
-function EventPost({event}) {
+import nodata from '../../Assets/nodata.png'
+import { BASE_URL } from '../../USER/Services/baseURL';
+import { EventDeleteAPI } from '../../USER/Services/allApi';
+import { deleteStatus } from '../../USER/Context/AuthContext';
+
+function AEpost({event}) {
+  const{setDeleteStaus}=useContext(deleteStatus)
   const [loading, setLoading] = useState(true);
   const[displayEvent,setDisplayEvent]=useState({})
   const[logged,setLogged]=useState(false)
@@ -41,16 +46,27 @@ function EventPost({event}) {
         setLogged(false)
       }
      },[logged])
+
+    //  delete event
+    const handleDelete=async(id)=>{
+      console.log(id);
+      const result=await EventDeleteAPI(id)
+      if (result.status===200) {
+        setDeleteStaus(result.data)
+        handleClose()
+      }
+
+    }
   return (
-    <div>
-    <Container className='mt-4' >
+    <>
+    <Container className='mt-4'>
     <div className='d-flex align-items-center justify-content-between'>
         {/* <h3 className='fs-2 ' >The Latest </h3> */}
    </div>
        <Row className='mt-4'> 
        {loading ? (
-             <SkeletonTheme baseColor="#202020" highlightColor="#444"><Skeleton  count={5} /></SkeletonTheme>
-             ):
+            <Skeleton count={5}/>
+          ):
            event.length>0?event.map((item)=>( <Col sm={12} md={3} lg={3} onClick={()=>handleShow(item)}>
                 
                 <div className='d-flex flex-column ' style={{width:"100%"}}>
@@ -59,9 +75,9 @@ function EventPost({event}) {
                         <div style={{position:"absolute",width:"100%",height:"40px",bottom:"0px",borderRadius: '8px',backgroundColor:"rgba(0, 0, 0, 0.608)"}} className='text-light p-2'><i class="fa-solid fa-calendar-days" style={{color:"yellow"}}></i>  {item.date}</div>
                     </div>
                     <div className='w-100' >
-                        <h5 className='mt-2 text-uppercase w-100 ' style={{color:"#8c8c8c"}}>{item.name}</h5>
-                        <p className=' w-100 '  style={{color:"#8c8c8c"}}>{item.location}</p>
-                        <p  style={{width:"240px",color:"#8c8c8c"}}>₹ {item.price[2]} onwards</p>
+                        <h5 className='mt-2 text-uppercase w-100 '>{item.name}</h5>
+                        <p className='text-muted w-100 '>{item.location}</p>
+                        <p className='text-muted ' style={{width:"240px"}}>₹ {item.price[2]} onwards</p>
 
                     </div>
                 </div>
@@ -100,20 +116,20 @@ function EventPost({event}) {
             </div>
              </div>
         </Modal.Header>
-        <Modal.Body style={{color:"#8c8c8c",backgroundColor:" #130f40",backgroundImage: "linear-gradient(315deg, #130f40 0%, #000000 74%)"}}>
+        <Modal.Body>
             <h5>About</h5>
          {displayEvent.description}
 
         </Modal.Body>
-        <Modal.Footer style={{backgroundColor:" #130f40",backgroundImage: "linear-gradient(315deg, #130f40 0%, #000000 74%)"}}>
+        <Modal.Footer>
           <Button variant="secondary" className='text-dark' onClick={handleClose}>
             Close
           </Button>
-          <Button onClick={logged?()=>handleButtonClick(displayEvent._id):handleLoginClick} variant="primary">Get Your Ticket</Button>
+          <Button variant="primary" onClick={()=>handleDelete(displayEvent._id)}>Delete</Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </>
   )
 }
 
-export default EventPost
+export default AEpost

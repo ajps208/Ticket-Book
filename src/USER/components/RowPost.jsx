@@ -9,7 +9,7 @@ import Badge from 'react-bootstrap/Badge';
 import { Link, useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../Services/baseURL';
 import { useEffect } from 'react';
-import Skeleton from 'react-loading-skeleton'
+import Skeleton,{ SkeletonTheme }  from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 function RowPost({event,title,url}) {
@@ -45,26 +45,27 @@ function RowPost({event,title,url}) {
     }, [event]);
   return (
     <>
-    <Container style={{ maxWidth: '80%' }}  className=' mt-4'>
-    <div className='d-flex align-items-center justify-content-between'>
-        <h3 className='fs-2 ' >The Latest {title}</h3>
+    <Container style={{ maxWidth: '80%' }} >
+    <div className='d-flex align-items-center justify-content-between pt-5'>
+        <h3 className='fs-2 ' style={{color:"#9c7945"}} >The Latest {title}</h3>
 <Link to={url} style={{textDecoration:"none"}}><p className='fs-6' style={{color:" #c71585"}}>See All <i class="fa-solid fa-greater-than " style={{fontSize:"8px"}}></i> </p></Link> 
    </div>
        <Row className='mt-4'> 
             
           {loading ? (
-            <Skeleton  count={5} />
+             <SkeletonTheme baseColor="#202020" highlightColor="#444"><Skeleton  count={5} /></SkeletonTheme>
           ):event?.map((item)=>(  <Col sm={12} md={3} lg={3} onClick={()=>handleShow(item)}>
                 
                 <div className='d-flex flex-column  justify-content-center align-items-center' style={{width:"100%"}}>
                     <div style={{width:"82%",position:"relative",height:"35vh",boxShadow: '0 4px 8px rgba(255, 255, 0, 0.5)'}}>
                         <img className='img-fluid h-100' width={'100%'}  style={{ objectFit:'cover', borderRadius: '8px'}} src={`${BASE_URL}/uploads/${item.image}`} alt="" />
-                        <div style={{position:"absolute",width:"100%",height:"40px",bottom:"0px",borderRadius: '8px',backgroundColor:"rgba(0, 0, 0, 0.608)"}} className='text-light p-2'><i class="fa-solid fa-calendar-days" style={{color:"yellow"}}></i>   {item.date}</div>
+                        <div style={{position:"absolute",width:"100%",height:"40px",bottom:"0px",borderRadius: '8px',backgroundColor:"rgba(0, 0, 0, 0.608)"}} className='text-light p-2'><i class="fa-solid fa-calendar-days" style={{color:"yellow"}}></i>   {item.date} </div>
+                        
                     </div>
                     <div >
-                        <h5 className='mt-3' style={{width:"240px",textTransform:"uppercase"}}>{item.name}</h5>
-                        <p className='text-muted' style={{width:"240px"}}>{item.location}</p>
-                        <p className='text-muted ' style={{width:"240px"}}>₹ {item.price[2]} onwards</p>
+                        <h5 className='mt-3' style={{width:"240px",textTransform:"uppercase",color:"#8c8c8c"}}>{item.name}</h5>
+                        <p style={{width:"240px",color:"#8c8c8c"}}>{item.location}</p>
+                        <p  style={{width:"240px",color:"#8c8c8c"}}>₹ {item.price[2]} onwards</p>
                     </div>
                 </div>
         </Col>))}
@@ -73,6 +74,7 @@ function RowPost({event,title,url}) {
     </Container>
         {/* MODAL */}
         <Modal
+        
         key={displayEvent._id}
         size='lg'
         show={show}
@@ -102,17 +104,19 @@ function RowPost({event,title,url}) {
             </div>
              </div>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body  style={{color:"#8c8c8c",backgroundColor:" #130f40",backgroundImage: "linear-gradient(315deg, #130f40 0%, #000000 74%)"}} >
             <h5>About</h5>
          {displayEvent.description}
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+        <Modal.Footer  style={{color:"#8c8c8c",backgroundColor:" #130f40",backgroundImage: "linear-gradient(315deg, #130f40 0%, #000000 74%)"}}>
+          <Button variant="secondary" className='text-dark' onClick={handleClose}>
             Close
           </Button>
           <Button onClick={logged?()=>handleButtonClick(displayEvent._id):handleLoginClick} variant="primary">Get Your Ticket</Button>
         </Modal.Footer>
+        
       </Modal>
+      
     </>
   )
 }

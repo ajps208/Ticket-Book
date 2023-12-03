@@ -1,71 +1,77 @@
-import React, { useEffect } from 'react'
+
+import React, { useContext, useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
+import { EventDeleteAPI, allEventAPI } from '../../USER/Services/allApi';
+import nodata from '../../Assets/nodata.png'
+import { BASE_URL } from '../../USER/Services/baseURL';
 import Modal from 'react-bootstrap/Modal';
 import Badge from 'react-bootstrap/Badge';
-import { Link, useNavigate } from 'react-router-dom';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+import Button from 'react-bootstrap/esm/Button';
+import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { BASE_URL } from '../Services/baseURL';
-import nodata from '../../Assets/nodata.png'
+import { deleteStatus } from '../../USER/Context/AuthContext';
 
-function EventPost({event}) {
+function DashPost({event}) {
+  const{deleteinfo,setDeleteStaus}=useContext(deleteStatus)
+
   const [loading, setLoading] = useState(true);
+ 
+ 
   const[displayEvent,setDisplayEvent]=useState({})
-  const[logged,setLogged]=useState(false)
-  const navigate = useNavigate();
-  const handleButtonClick = (id) => {
-    navigate(`/ticket/${id}`);
-    };
-  const handleLoginClick=()=>{
-    navigate('/login');
-  }
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = (item) => {
-      setShow(true);
-     setDisplayEvent(item)}
-     
-    useEffect(() => {
-      if (event && event.length > 0) {
-        setLoading(false);
+ 
+    
+      const [show, setShow] = useState(false);
+      const handleClose = () => setShow(false);
+      const handleShow = (item) => {
+        setShow(true);
+        setDisplayEvent(item)
+      
       }
-    }, [event]);
-    useEffect(()=>{
-      if(sessionStorage.getItem('token')){
-        setLogged(true)
-      }else{
-        setLogged(false)
+    
+      useEffect(() => {
+        if (event && event.length > 0) {
+          setLoading(false);
+        }
+      }, [event]);
+
+      const handleDelete=async(id)=>{
+        // console.log(id);
+        const result=await EventDeleteAPI(id)
+        if (result.status===200) {
+          setDeleteStaus(result.data)
+          handleClose()
+          window.location.reload()
+          
+        }
+  
       }
-     },[logged])
   return (
-    <div>
-    <Container className='mt-4' >
+    <>
+    <Container className='mt-4'>
     <div className='d-flex align-items-center justify-content-between'>
         {/* <h3 className='fs-2 ' >The Latest </h3> */}
    </div>
        <Row className='mt-4'> 
        {loading ? (
-             <SkeletonTheme baseColor="#202020" highlightColor="#444"><Skeleton  count={5} /></SkeletonTheme>
-             ):
-           event.length>0?event.map((item)=>( <Col sm={12} md={3} lg={3} onClick={()=>handleShow(item)}>
+            <Skeleton  count={5} />
+          ):event.length>0? event.map((item)=>(<Col sm={12} md={3} lg={3} >
                 
-                <div className='d-flex flex-column ' style={{width:"100%"}}>
+                <div className='d-flex flex-column ' style={{width:"100%"}} onClick={()=>handleShow(item)}>
                     <div style={{width:"100%",position:"relative",height:"25vh",boxShadow: '0 4px 8px rgba(255, 255, 0, 0.5)'}}>
-                        <img className='img-fluid h-100'width={'100%'} style={{ objectFit: 'cover', borderRadius: '8px'}} src={`${BASE_URL}/uploads/${item.image}`} alt="" />
-                        <div style={{position:"absolute",width:"100%",height:"40px",bottom:"0px",borderRadius: '8px',backgroundColor:"rgba(0, 0, 0, 0.608)"}} className='text-light p-2'><i class="fa-solid fa-calendar-days" style={{color:"yellow"}}></i>  {item.date}</div>
+                        <img className='img-fluid h-100'width={'100%'} style={{ objectFit: 'cover', borderRadius: '8px'}} src={item.image?`${BASE_URL}/uploads/${item.image}`:"https://cdn.pixabay.com/photo/2022/01/28/18/32/leaves-6975462_1280.png"} alt="" />
+                        <div style={{position:"absolute",width:"100%",height:"40px",bottom:"0px",borderRadius: '8px',backgroundColor:"rgba(0, 0, 0, 0.608)"}} className='text-light p-2'><i class="fa-solid fa-calendar-days" style={{color:"yellow"}}></i> {item.date}</div>
                     </div>
                     <div className='w-100' >
-                        <h5 className='mt-2 text-uppercase w-100 ' style={{color:"#8c8c8c"}}>{item.name}</h5>
-                        <p className=' w-100 '  style={{color:"#8c8c8c"}}>{item.location}</p>
-                        <p  style={{width:"240px",color:"#8c8c8c"}}>₹ {item.price[2]} onwards</p>
+                        <h5 className='mt-2 text-uppercase w-100 '>{item.name}</h5>
+                        <p className='text-muted w-100 '>{item.location}</p>
+                        <p className='text-muted ' style={{width:"240px"}}>₹ {item.price[0]} onwards</p>
 
                     </div>
                 </div>
-        </Col>)):<div className='d-flex justify-content-center align-items-center'><img className='img-fluid' width={"150px"} src={nodata} alt="" /> <h2 className='text-primary'>No data found !!!</h2></div>}
+        </Col>)) :        <div className='d-flex justify-content-center align-items-center'><img className='img-fluid' width={"150px"} src={nodata} alt="" /> <h2 className='text-primary'>No data found !!!</h2></div>
+}
        </Row>
     </Container>
         {/* MODAL */}
@@ -100,20 +106,21 @@ function EventPost({event}) {
             </div>
              </div>
         </Modal.Header>
-        <Modal.Body style={{color:"#8c8c8c",backgroundColor:" #130f40",backgroundImage: "linear-gradient(315deg, #130f40 0%, #000000 74%)"}}>
+        <Modal.Body>
             <h5>About</h5>
          {displayEvent.description}
 
         </Modal.Body>
-        <Modal.Footer style={{backgroundColor:" #130f40",backgroundImage: "linear-gradient(315deg, #130f40 0%, #000000 74%)"}}>
+        <Modal.Footer>
           <Button variant="secondary" className='text-dark' onClick={handleClose}>
             Close
           </Button>
-          <Button onClick={logged?()=>handleButtonClick(displayEvent._id):handleLoginClick} variant="primary">Get Your Ticket</Button>
+          <Button variant="primary" onClick={()=>handleDelete(displayEvent._id)}>Delete</Button>
+
         </Modal.Footer>
       </Modal>
-    </div>
+    </>
   )
 }
 
-export default EventPost
+export default DashPost
