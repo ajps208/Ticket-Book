@@ -66,7 +66,7 @@ function OrderView() {
                 <span className='text-light mt-1 text-uppercase'>{order.eventInfo && order.eventInfo.data ? order.eventInfo.data.name : 'N/A'}</span>
               </Col>
               <Col xs={4} md={2} lg={2} className='p-1'>
-              <img className='img-fluid w-50 shadow rounded' src={order.eventInfo && order.eventInfo.data ? `${BASE_URL}/uploads/${order.eventInfo.data.image}` : 'N/A'} alt='' />
+              <img className='img-fluid w-25 shadow rounded' src={order.eventInfo && order.eventInfo.data ? `${BASE_URL}/uploads/${order.eventInfo.data.image}` : 'N/A'} alt='' />
               </Col>
               <Col xs={4} md={1} lg={1}>
                 <span className='text-success'>Qty:</span> <br />
