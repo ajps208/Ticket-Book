@@ -40,7 +40,6 @@ function TicketView() {
         "pk_test_51OGkHMSHKWNdPynwVi6PmahTtkOQAeAENEBXD91iC4ddSRPZ4gJTkzZ3snBRpEAqT7K1zFO1jy0WHdmU49410jf400XvEgzrrF"
       );
   
-      // Ensure that seat is selected before making the payment
       if (seat === null || seat === undefined || seat === "SELECT YOUR CATEGORY") {
         // Handle the case where no seat is selected
         toast.info("Please select a seat before making the payment");
