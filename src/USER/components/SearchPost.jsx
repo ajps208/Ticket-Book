@@ -69,7 +69,7 @@ function SearchPost() {
                     <div className='w-100' >
                         <h5 className='mt-2 text-uppercase w-100 '  style={{color:"#8c8c8c"}}>{item.name}</h5>
                         <p className='w-100 ' style={{color:"#8c8c8c"}}>{item.location}</p>
-                        <p style={{width:"240px",color:"#8c8c8c"}}>{item.price[2]}₹ onwards</p>
+                        <p style={{width:"240px",color:"#8c8c8c"}}>₹ {item.price[2]} onwards</p>
 
                     </div>
                 </div>
