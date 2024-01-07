@@ -30,12 +30,14 @@ TicketMate is a vibrant web application designed to provide a delightful user in
 
 ## 📷 Preview
 
-![TicketMate Preview](public/asset/Screenshot%202024-01-07%20222039.png)
-![TicketMate Preview](public/asset/Screenshot%202024-01-07%20222101.png)
+![TicketMate Preview]()
+<img src="public/asset/Screenshot%202024-01-07%20222039.png" alt="TicketMate Preview" width="400" height="200">
+<img src="public/asset/Screenshot 2024-01-07 222101.png" alt="TicketMate Preview" width="400" height="200">
+
 
 ## 🛠 Getting Started
 
-1. **Clone the repository:** `git clone https://github.com/your-username/ticketmate.git`
+1. **Clone the repository:** `git clone https://github.com/ajps208/Ticket-Book.git`
 2. **Navigate to the project directory:** `cd ticketmate`
 3. **Install dependencies for the server:** `npm install`
 4. **Navigate to the client directory:** `cd client`
@@ -45,6 +47,10 @@ TicketMate is a vibrant web application designed to provide a delightful user in
 
 1. Set up your MongoDB database and provide the connection string in the `config.js` file.
 2. Obtain your Stripe API key and configure it in the appropriate files.
+
+## Backend Repository 🖥️
+The backend code for Ticketmate is available in a separate repository. Explore and contribute to the backend here:
+[(backend_repository_link)](https://github.com/ajps208/Ticket-server)
 
 ## ▶️ Usage
 
