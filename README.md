@@ -30,9 +30,10 @@ TicketMate is a vibrant web application designed to provide a delightful user in
 
 ## 📷 Preview
 
-![TicketMate Preview]()
-<img src="public/asset/Screenshot%202024-01-07%20222039.png" alt="TicketMate Preview" width="400" height="200">
-<img src="public/asset/Screenshot 2024-01-07 222101.png" alt="TicketMate Preview" width="400" height="200">
+<div classname="d-flex flex-row">
+  <img src="public/asset/Screenshot%202024-01-07%20222039.png" alt="TicketMate Preview" width="400" height="200">
+  <img src="public/asset/Screenshot 2024-01-07 222101.png" alt="TicketMate Preview" width="400" height="200">
+</div>
 
 
 ## 🛠 Getting Started
