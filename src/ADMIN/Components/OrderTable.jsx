@@ -19,7 +19,6 @@ const DataTableComponent = () => {
       }
     } catch (error) {
       console.error('API Error:', error);
-      // Handle error as needed
     }
   };
 
